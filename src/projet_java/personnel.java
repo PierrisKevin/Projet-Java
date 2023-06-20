@@ -6,6 +6,7 @@
 package projet_java;
 
 import controller.Personne;
+import controller.controlCOnges;
 import controller.controlPersonne;
 import java.awt.Color;
 import java.awt.Image;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -41,7 +43,10 @@ public class personnel extends javax.swing.JInternalFrame {
         identifiant.setVisible(false);
         
         ChargerListe();
-        
+        print_btn.setEnabled(false);
+        del_btn.setEnabled(false);
+        edt_btn.setEnabled(false);
+        confirm_btn.setEnabled(false);
     }
 
     /**
@@ -69,17 +74,18 @@ public class personnel extends javax.swing.JInternalFrame {
         phone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         poste = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        confirm_btn = new javax.swing.JButton();
         photoImage = new javax.swing.JLabel();
         qrcontain = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        deleteBtn = new javax.swing.JButton();
+        edt_btn = new javax.swing.JButton();
+        del_btn = new javax.swing.JButton();
         adresse = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         date_naissance = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         add_image = new javax.swing.JButton();
         identifiant = new javax.swing.JTextField();
+        print_btn = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -176,6 +182,11 @@ public class personnel extends javax.swing.JInternalFrame {
                 cinActionPerformed(evt);
             }
         });
+        cin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cinKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText("Numero CIN : ");
 
@@ -199,6 +210,11 @@ public class personnel extends javax.swing.JInternalFrame {
                 phoneActionPerformed(evt);
             }
         });
+        phone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                phoneKeyReleased(evt);
+            }
+        });
 
         jLabel5.setText("Poste : ");
 
@@ -207,13 +223,18 @@ public class personnel extends javax.swing.JInternalFrame {
                 posteActionPerformed(evt);
             }
         });
+        poste.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                posteKeyReleased(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 204));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Ajouter");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        confirm_btn.setBackground(new java.awt.Color(0, 102, 204));
+        confirm_btn.setForeground(new java.awt.Color(255, 255, 255));
+        confirm_btn.setText("Ajouter");
+        confirm_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                confirm_btnActionPerformed(evt);
             }
         });
 
@@ -223,27 +244,32 @@ public class personnel extends javax.swing.JInternalFrame {
         qrcontain.setText("QR CODE Personal");
         qrcontain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jButton3.setBackground(new java.awt.Color(51, 153, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Modifier");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        edt_btn.setBackground(new java.awt.Color(51, 153, 0));
+        edt_btn.setForeground(new java.awt.Color(255, 255, 255));
+        edt_btn.setText("Modifier");
+        edt_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                edt_btnActionPerformed(evt);
             }
         });
 
-        deleteBtn.setBackground(new java.awt.Color(255, 0, 0));
-        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
-        deleteBtn.setText("Supprimer");
-        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+        del_btn.setBackground(new java.awt.Color(255, 0, 0));
+        del_btn.setForeground(new java.awt.Color(255, 255, 255));
+        del_btn.setText("Supprimer");
+        del_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteBtnActionPerformed(evt);
+                del_btnActionPerformed(evt);
             }
         });
 
         adresse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 adresseActionPerformed(evt);
+            }
+        });
+        adresse.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                adresseKeyReleased(evt);
             }
         });
 
@@ -254,8 +280,13 @@ public class personnel extends javax.swing.JInternalFrame {
                 date_naissanceActionPerformed(evt);
             }
         });
+        date_naissance.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                date_naissanceKeyReleased(evt);
+            }
+        });
 
-        jLabel6.setText("Date de naissance : ");
+        jLabel6.setText("Date de naissance (YYYY/MM/JJ): ");
 
         add_image.setText("Add");
         add_image.addActionListener(new java.awt.event.ActionListener() {
@@ -267,6 +298,16 @@ public class personnel extends javax.swing.JInternalFrame {
         identifiant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 identifiantActionPerformed(evt);
+            }
+        });
+
+        print_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        print_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/print.png"))); // NOI18N
+        print_btn.setText("Imprimer");
+        print_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        print_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                print_btnMouseClicked(evt);
             }
         });
 
@@ -303,11 +344,13 @@ public class personnel extends javax.swing.JInternalFrame {
                             .addComponent(jLabel7)
                             .addComponent(adresse)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(confirm_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(edt_btn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deleteBtn))
+                        .addComponent(print_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(del_btn))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -355,7 +398,7 @@ public class personnel extends javax.swing.JInternalFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(poste, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(qrcontain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -363,9 +406,10 @@ public class personnel extends javax.swing.JInternalFrame {
                     .addComponent(add_image, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(print_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(del_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(edt_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(confirm_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -424,43 +468,9 @@ public class personnel extends javax.swing.JInternalFrame {
             ChercheListe(content);
         }
     }//GEN-LAST:event_search_btnActionPerformed
-
-    private void cinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cinActionPerformed
-
-    private void prenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prenameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_prenameActionPerformed
-
-    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phoneActionPerformed
-
-    private void posteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_posteActionPerformed
-
-    private void adresseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adresseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_adresseActionPerformed
     String s;
     
-    private void add_imageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_imageActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "jpg","png");
-        fileChooser.addChoosableFileFilter(filter);
-        int result = fileChooser.showSaveDialog(null);
-        if (result==JFileChooser.APPROVE_OPTION){
-            File selectedFile = fileChooser.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-            photoImage.setIcon(ResizeImage(path));
-            s = path;
-        }
-    }//GEN-LAST:event_add_imageActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirm_btnActionPerformed
         String nom = name.getText();
         String prenom = this.prename.getText();
         String numCIN = this.cin.getText();
@@ -477,45 +487,23 @@ public class personnel extends javax.swing.JInternalFrame {
             String identifiant = cp.takeLast();
             String chemin = generateQR(identifiant);
             cp.SetQR(chemin, identifiant);
-            JOptionPane.showMessageDialog(this, "Ajout réussi!!");
+            
+            //Creation du conge atribuant au personnel ajouter
+            controlCOnges ccg = new controlCOnges();
+            ccg.createConge(identifiant);
             ChargerListe();
             resetAll();
+            JOptionPane.showMessageDialog(this, "Ajout réussi!!");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(personnel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(personnel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void date_naissanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_date_naissanceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_date_naissanceActionPerformed
-
-    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
-        
-    }//GEN-LAST:event_nameKeyTyped
-
-    private void nameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyPressed
-
-    }//GEN-LAST:event_nameKeyPressed
-
-    private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
-        String content = name.getText();
-        name.setText(content.toUpperCase());
-    }//GEN-LAST:event_nameKeyReleased
-
-    private void prenameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prenameKeyReleased
-        String content = prename.getText();
-        prename.setText(capitalize(content));
-    }//GEN-LAST:event_prenameKeyReleased
+    }//GEN-LAST:event_confirm_btnActionPerformed
 
     private void client_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_client_searchKeyReleased
 
     }//GEN-LAST:event_client_searchKeyReleased
-
-    private void identifiantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_identifiantActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_identifiantActionPerformed
 
     private void liste_resultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_liste_resultMouseClicked
         int ligne = liste_result.getSelectedRow();
@@ -541,9 +529,12 @@ public class personnel extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             Logger.getLogger(personnel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        print_btn.setEnabled(true);
+        del_btn.setEnabled(true);
+        edt_btn.setEnabled(true);
     }//GEN-LAST:event_liste_resultMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void edt_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edt_btnActionPerformed
         String nom = name.getText();
         String prenom = this.prename.getText();
         String numCIN = this.cin.getText();
@@ -564,21 +555,124 @@ public class personnel extends javax.swing.JInternalFrame {
         }
         
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_edt_btnActionPerformed
 
-    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+    private void del_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_btnActionPerformed
         String id = identifiant.getText();
         try {
             controlPersonne cp = new controlPersonne();
             cp.virtualDelete(id);
-            JOptionPane.showMessageDialog(this, "Deplace dans corbeille!");
             ChargerListe();
             resetAll();
+            JOptionPane.showMessageDialog(this, "Deplace dans corbeille!");
         } catch (Exception ex) {
             Logger.getLogger(personnel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }//GEN-LAST:event_deleteBtnActionPerformed
+    }//GEN-LAST:event_del_btnActionPerformed
+
+    private void print_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_print_btnMouseClicked
+        carte_membre crt = new carte_membre();
+        String nom = name.getText();
+        String prenom = this.prename.getText();
+        String numCIN = this.cin.getText();
+        String adresse = this.adresse.getText();
+        String date_naisse = this.date_naissance.getText();
+        String poste = this.poste.getText();
+        String path = "";
+        try {
+            controlPersonne cp = new controlPersonne();
+            String client[] = cp.getPersonnal(identifiant.getText());
+            path = client[8];
+        } catch (Exception ex) {
+            Logger.getLogger(personnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        crt.addValue(nom, prenom, date_naisse, numCIN, adresse, poste, path);
+        crt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        crt.setVisible(true);
+    }//GEN-LAST:event_print_btnMouseClicked
+
+    private void add_imageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_imageActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "jpg","png");
+        fileChooser.addChoosableFileFilter(filter);
+        int result = fileChooser.showSaveDialog(null);
+        if (result==JFileChooser.APPROVE_OPTION){
+            File selectedFile = fileChooser.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            photoImage.setIcon(ResizeImage(path));
+            s = path;
+        }
+    }//GEN-LAST:event_add_imageActionPerformed
+
+    private void posteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_posteKeyReleased
+        acttive_confirm();
+    }//GEN-LAST:event_posteKeyReleased
+
+    private void posteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_posteActionPerformed
+
+    private void phoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneKeyReleased
+        acttive_confirm();
+    }//GEN-LAST:event_phoneKeyReleased
+
+    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneActionPerformed
+
+    private void identifiantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_identifiantActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_identifiantActionPerformed
+
+    private void date_naissanceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_date_naissanceKeyReleased
+        acttive_confirm();
+    }//GEN-LAST:event_date_naissanceKeyReleased
+
+    private void date_naissanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_date_naissanceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_date_naissanceActionPerformed
+
+    private void adresseKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_adresseKeyReleased
+        acttive_confirm();
+    }//GEN-LAST:event_adresseKeyReleased
+
+    private void adresseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adresseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adresseActionPerformed
+
+    private void cinKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cinKeyReleased
+        acttive_confirm();
+    }//GEN-LAST:event_cinKeyReleased
+
+    private void cinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cinActionPerformed
+
+    private void prenameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prenameKeyReleased
+        String content = prename.getText();
+        prename.setText(capitalize(content));
+    }//GEN-LAST:event_prenameKeyReleased
+
+    private void prenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prenameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prenameActionPerformed
+
+    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
+
+    }//GEN-LAST:event_nameKeyTyped
+
+    private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
+        String content = name.getText();
+        name.setText(content.toUpperCase());
+        acttive_confirm();
+    }//GEN-LAST:event_nameKeyReleased
+
+    private void nameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyPressed
+
+    }//GEN-LAST:event_nameKeyPressed
 
     public ImageIcon ResizeImage(String imagePath){
         ImageIcon myImage = new ImageIcon(imagePath);
@@ -589,9 +683,9 @@ public class personnel extends javax.swing.JInternalFrame {
     }
     
     public ImageIcon ResizeQR(String imagePath){
-        ImageIcon myImage = new javax.swing.ImageIcon(getClass().getResource(path));
+        ImageIcon myImage = new javax.swing.ImageIcon(getClass().getResource(imagePath));
         Image imge = myImage.getImage();
-        Image newImage = imge.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        Image newImage = imge.getScaledInstance(qrcontain.getWidth(), qrcontain.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImage);
         return image;
     }
@@ -679,6 +773,19 @@ public class personnel extends javax.swing.JInternalFrame {
          }
         return null;
     }
+   
+   public void acttive_confirm(){
+       boolean valider = validationFrom();
+       if (valider==true) confirm_btn.setEnabled(true);
+       else confirm_btn.setEnabled(false);
+   }
+   public boolean validationFrom(){
+       String allValues[] = {name.getText(), prename.getText(), cin.getText(), date_naissance.getText(), phone.getText(), poste.getText()};
+       for(int i=0;i<allValues.length;i++){
+           if (allValues[i].equals("") || allValues[i]==null) return false;
+       }
+       return true;
+   }
     
     
 
@@ -687,11 +794,11 @@ public class personnel extends javax.swing.JInternalFrame {
     private javax.swing.JTextField adresse;
     private javax.swing.JTextField cin;
     private javax.swing.JTextField client_search;
+    private javax.swing.JButton confirm_btn;
     private javax.swing.JTextField date_naissance;
-    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton del_btn;
+    private javax.swing.JButton edt_btn;
     private javax.swing.JTextField identifiant;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -708,6 +815,7 @@ public class personnel extends javax.swing.JInternalFrame {
     private javax.swing.JLabel photoImage;
     private javax.swing.JTextField poste;
     private javax.swing.JTextField prename;
+    private javax.swing.JLabel print_btn;
     private javax.swing.JLabel qrcontain;
     private javax.swing.JButton search_btn;
     // End of variables declaration//GEN-END:variables

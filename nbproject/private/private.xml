@@ -3,13 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Practice/Projet_JAVA/src/projet_java/demande.java</file>
-            <file>file:/D:/Practice/Projet_JAVA/src/controller/controlPersonne.java</file>
-            <file>file:/D:/Practice/Projet_JAVA/src/projet_java/corbeille.java</file>
-            <file>file:/D:/Practice/Projet_JAVA/src/projet_java/MainView.java</file>
-            <file>file:/D:/Practice/Projet_JAVA/src/controller/Personne.java</file>
-            <file>file:/D:/Practice/Projet_JAVA/src/projet_java/personnel.java</file>
-            <file>file:/D:/Practice/Projet_JAVA/src/projet_java/dashboard.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/MainView.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/payment.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/AddPoste.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/card_member.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/checkNotify.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/post_views.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/qr_scanner.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/modal_personnel.java</file>
+            <file>file:/D:/Practice/Java%20version%202/src/projet_java/loader.java</file>
         </group>
     </open-files>
 </project-private>

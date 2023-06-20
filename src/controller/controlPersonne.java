@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 
@@ -66,9 +61,17 @@ public class controlPersonne {
         String query = "DELETE FROM employe WHERE visible=0";
         connexion.executeUpdate(query);
     }
-    
+    public String[] salairepersonne(String id) throws Exception{
+        String query = "SELECT ls.salaire as salaire,ls.salaire_journalier as salaireJ FROM list_poste as ls INNER JOIN employe as emp ON emp.poste=ls.nom_poste WHERE emp.id="+id;
+        ResultSet rs = connexion.executeQuery(query);
+        String resp[]= new String[2];
+        rs.next();
+        resp[0]=rs.getString("salaire");
+        resp[1]=rs.getString("salaireJ");
+        return resp;
+    }
     public String[] getPersonnal(String id) throws Exception{
-        String valeur[] = {"","","","","","","","",""}; 
+        String valeur[] = {"","","","","","","","","",""}; 
         String query = "SELECT * FROM employe WHERE id="+id+"";
         ResultSet rs = connexion.executeQuery(query);
         rs.next();
@@ -81,6 +84,7 @@ public class controlPersonne {
         valeur[6] = rs.getString("Num_cin");
         valeur[7] = rs.getString("adresse");
         valeur[8] = rs.getString("QRCode");
+        valeur[9] = rs.getString("Photo");
         return valeur;
     }
     public String takeLast() throws Exception{
@@ -94,6 +98,10 @@ public class controlPersonne {
         String query = "UPDATE employe SET QRCode='"+ path +"' WHERE id="+ id +"";
         connexion.executeUpdate(query);
     }
+    public void setImage(String path,String id) throws Exception{
+        String query = "UPDATE employe SET Photo='"+ path +"' WHERE id="+ id +"";
+        connexion.executeUpdate(query);
+    }
     
     public int countEnreg() throws Exception {
         String query = "SELECT count(*) as nombre FROM employe";
@@ -104,7 +112,7 @@ public class controlPersonne {
     }
     
     public int countConge() throws Exception {
-        String query = "SELECT count(*) as nombre FROM conge";
+        String query = "SELECT count(*) as nombre FROM demande";
         ResultSet rs = connexion.executeQuery(query);
         rs.next();
         int nbr = rs.getInt("nombre");

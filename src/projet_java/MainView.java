@@ -26,19 +26,18 @@ public class MainView extends javax.swing.JFrame {
 
     public void changeMenu(JPanel jlb, JInternalFrame jtf){
         this.desk_container.removeAll();
-        JPanel allPannel[] = {dashBoard_menu, Personnel_menu, demande_menu, trash_menu};
+        JPanel allPannel[] = {dashBoard_menu, Personnel_menu, demande_menu, trash_menu, settings_menu, payment_menu, job_menu};
         int width = this.desk_container.getWidth();
         int height = this.desk_container.getHeight();
         for(int i=0; i<allPannel.length;i++){
             allPannel[i].setBackground(Color.WHITE);
         }
-        jlb.setBackground(this.getBackground());
+        jlb.setBackground(Color.decode("#72D3FC"));
         this.desk_container.add(jtf);
         this.desk_container.setBackground(Color.BLACK);
         jtf.setSize(width, height);
         jtf.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jtf.show();
-        System.out.println(this.getBackground());
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -56,20 +55,25 @@ public class MainView extends javax.swing.JFrame {
         exit_menu = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         logo_contain = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         trash_menu = new javax.swing.JPanel();
         trash_link = new javax.swing.JLabel();
+        settings_menu = new javax.swing.JPanel();
+        trash_link1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        payment_menu = new javax.swing.JPanel();
+        pay_link = new javax.swing.JLabel();
+        job_menu = new javax.swing.JPanel();
+        trash_link2 = new javax.swing.JLabel();
         desk_container = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestion de personnel");
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(240, 242, 255));
 
         MenuContainer.setBackground(new java.awt.Color(255, 255, 255));
 
-        dashBoard_menu.setBackground(new java.awt.Color(37, 188, 253));
+        dashBoard_menu.setBackground(new java.awt.Color(114, 211, 252));
 
         dash_link.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/dash-icon.png"))); // NOI18N
         dash_link.setText(" Dashboard");
@@ -140,7 +144,7 @@ public class MainView extends javax.swing.JFrame {
         demande_menu.setBackground(new java.awt.Color(255, 255, 255));
 
         demand_link.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        demand_link.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/demand-icon.png"))); // NOI18N
+        demand_link.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/conges (2).png"))); // NOI18N
         demand_link.setText(" Demande");
         demand_link.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         demand_link.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -156,7 +160,7 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(demande_menuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(demand_link, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         demande_menuLayout.setVerticalGroup(
             demande_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,40 +202,15 @@ public class MainView extends javax.swing.JFrame {
 
         logo_contain.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pers.png"))); // NOI18N
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel3.setText("PERSONNAL");
-
-        jLabel4.setText("MANAGEMENT");
-
         javax.swing.GroupLayout logo_containLayout = new javax.swing.GroupLayout(logo_contain);
         logo_contain.setLayout(logo_containLayout);
         logo_containLayout.setHorizontalGroup(
             logo_containLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logo_containLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(logo_containLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addContainerGap(23, Short.MAX_VALUE))
+            .addGap(0, 329, Short.MAX_VALUE)
         );
         logo_containLayout.setVerticalGroup(
             logo_containLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logo_containLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(logo_containLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(logo_containLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addGap(0, 24, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addGap(0, 142, Short.MAX_VALUE)
         );
 
         trash_menu.setBackground(new java.awt.Color(255, 255, 255));
@@ -253,13 +232,113 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(trash_menuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(trash_link, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         trash_menuLayout.setVerticalGroup(
             trash_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(trash_menuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(trash_link, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addComponent(trash_link, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        settings_menu.setBackground(new java.awt.Color(255, 255, 255));
+
+        trash_link1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        trash_link1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/setting.png"))); // NOI18N
+        trash_link1.setText("  Parametre");
+        trash_link1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        trash_link1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                trash_link1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout settings_menuLayout = new javax.swing.GroupLayout(settings_menu);
+        settings_menu.setLayout(settings_menuLayout);
+        settings_menuLayout.setHorizontalGroup(
+            settings_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settings_menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(trash_link1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        settings_menuLayout.setVerticalGroup(
+            settings_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settings_menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(trash_link1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel2.setBackground(new java.awt.Color(241, 241, 241));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 8, Short.MAX_VALUE)
+        );
+
+        payment_menu.setBackground(new java.awt.Color(255, 255, 255));
+
+        pay_link.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        pay_link.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/payement.png"))); // NOI18N
+        pay_link.setText("Payment");
+        pay_link.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pay_link.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pay_linkMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout payment_menuLayout = new javax.swing.GroupLayout(payment_menu);
+        payment_menu.setLayout(payment_menuLayout);
+        payment_menuLayout.setHorizontalGroup(
+            payment_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(payment_menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pay_link, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        payment_menuLayout.setVerticalGroup(
+            payment_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(payment_menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pay_link, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        job_menu.setBackground(new java.awt.Color(255, 255, 255));
+
+        trash_link2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        trash_link2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/new job.png"))); // NOI18N
+        trash_link2.setText("Gestion des postes");
+        trash_link2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        trash_link2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                trash_link2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout job_menuLayout = new javax.swing.GroupLayout(job_menu);
+        job_menu.setLayout(job_menuLayout);
+        job_menuLayout.setHorizontalGroup(
+            job_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(job_menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(trash_link2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        job_menuLayout.setVerticalGroup(
+            job_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(job_menuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(trash_link2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -275,7 +354,11 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(demande_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exit_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(logo_contain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(trash_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(trash_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(settings_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(payment_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(job_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         MenuContainerLayout.setVerticalGroup(
@@ -289,9 +372,17 @@ public class MainView extends javax.swing.JFrame {
                 .addComponent(Personnel_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(demande_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(payment_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(job_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(trash_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 421, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(settings_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
                 .addComponent(exit_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -302,7 +393,7 @@ public class MainView extends javax.swing.JFrame {
         desk_container.setLayout(desk_containerLayout);
         desk_containerLayout.setHorizontalGroup(
             desk_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1089, Short.MAX_VALUE)
+            .addGap(0, 1117, Short.MAX_VALUE)
         );
         desk_containerLayout.setVerticalGroup(
             desk_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,17 +406,13 @@ public class MainView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(MenuContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(desk_container)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(desk_container))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(desk_container)
-                    .addComponent(MenuContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(MenuContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(desk_container)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -366,7 +453,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_demand_linkMouseClicked
 
     private void personnel_clickMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_personnel_clickMouseClicked
-        personnel pers = new personnel();
+        personnel_views pers = new personnel_views();
         changeMenu(Personnel_menu, pers);
     }//GEN-LAST:event_personnel_clickMouseClicked
 
@@ -379,6 +466,27 @@ public class MainView extends javax.swing.JFrame {
         changeMenu(trash_menu,cb);
     }//GEN-LAST:event_trash_linkMouseClicked
 
+    private void trash_link1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trash_link1MouseClicked
+        parametre params;
+        try {
+            params = new parametre();
+            changeMenu(settings_menu, params);
+        } catch (Exception ex) {
+            Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_trash_link1MouseClicked
+
+    private void pay_linkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pay_linkMouseClicked
+        payment pay = new payment();
+        changeMenu(payment_menu, pay);
+    }//GEN-LAST:event_pay_linkMouseClicked
+
+    private void trash_link2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trash_link2MouseClicked
+        post_views pst = new post_views();
+        changeMenu(job_menu, pst);
+    }//GEN-LAST:event_trash_link2MouseClicked
+    
     /**
      * @param args the command line arguments
      */
@@ -427,15 +535,19 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JPanel demande_menu;
     private javax.swing.JDesktopPane desk_container;
     private javax.swing.JPanel exit_menu;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel job_menu;
     private javax.swing.JPanel logo_contain;
+    private javax.swing.JLabel pay_link;
+    private javax.swing.JPanel payment_menu;
     private javax.swing.JLabel personnel_click;
     private javax.swing.JLabel personnel_link;
+    private javax.swing.JPanel settings_menu;
     private javax.swing.JLabel trash_link;
+    private javax.swing.JLabel trash_link1;
+    private javax.swing.JLabel trash_link2;
     private javax.swing.JPanel trash_menu;
     // End of variables declaration//GEN-END:variables
 }

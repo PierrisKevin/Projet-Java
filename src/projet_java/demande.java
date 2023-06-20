@@ -5,7 +5,17 @@
  */
 package projet_java;
 
+import controller.controlCOnges;
+import controller.controlPersonne;
+import java.awt.Color;
+import java.sql.ResultSet;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,13 +23,18 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  */
 public class demande extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form demande
-     */
+    int validateValues[] = {0,0};
     public demande() {
         initComponents();
         BasicInternalFrameUI ui= (BasicInternalFrameUI)this.getUI();
         ui.setNorthPane(null);
+        duree.setFocusable(true);
+        ChargerListe();
+        
+        motif.setEnabled(false);
+        duree.setEnabled(false);
+        
+        add_demande.setEnabled(false);
     }
 
     /**
@@ -32,34 +47,187 @@ public class demande extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jSplitPane1 = new javax.swing.JSplitPane();
-        list_demande = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
         info_demand = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        personnel_id = new javax.swing.JTextField();
+        conge_reste = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        motif = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        duree = new javax.swing.JFormattedTextField();
+        jLabel4 = new javax.swing.JLabel();
+        periode = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        user_conge = new javax.swing.JTextField();
+        add_demande = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        list_demande = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        cherche_values = new javax.swing.JTextField();
+        search_btn = new javax.swing.JButton();
+        conges_container = new javax.swing.JScrollPane();
+        liste_conges = new javax.swing.JTable();
 
         setBorder(null);
+
+        jPanel1.setBackground(new java.awt.Color(240, 242, 255));
+
+        info_demand.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setText("ID du demandeur");
+
+        personnel_id.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                personnel_idInputMethodTextChanged(evt);
+            }
+        });
+        personnel_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                personnel_idActionPerformed(evt);
+            }
+        });
+        personnel_id.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                personnel_idKeyReleased(evt);
+            }
+        });
+
+        conge_reste.setBorder(null);
+
+        jLabel3.setText("Conge restant (en jours): ");
+
+        jLabel5.setText("Motif");
+
+        motif.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                motifKeyReleased(evt);
+            }
+        });
+
+        jLabel6.setText("Duree");
+
+        duree.setFocusable(false);
+        duree.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dureeKeyReleased(evt);
+            }
+        });
+
+        jLabel4.setText("mois : ");
+
+        periode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "janvier", "fevirer", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre" }));
+        periode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                periodeActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Son conge (en jours): ");
+
+        user_conge.setBorder(null);
+
+        add_demande.setBackground(new java.awt.Color(0, 204, 255));
+        add_demande.setForeground(new java.awt.Color(255, 255, 255));
+        add_demande.setText("Valider");
+        add_demande.setBorder(null);
+        add_demande.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_demandeActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_qr_code_64px.png"))); // NOI18N
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout info_demandLayout = new javax.swing.GroupLayout(info_demand);
+        info_demand.setLayout(info_demandLayout);
+        info_demandLayout.setHorizontalGroup(
+            info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(info_demandLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(periode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(motif)
+                    .addComponent(duree)
+                    .addGroup(info_demandLayout.createSequentialGroup()
+                        .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(add_demande, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(user_conge, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(info_demandLayout.createSequentialGroup()
+                        .addComponent(personnel_id)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addGap(276, 276, 276))
+                    .addGroup(info_demandLayout.createSequentialGroup()
+                        .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addGroup(info_demandLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(conge_reste, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        info_demandLayout.setVerticalGroup(
+            info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(info_demandLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(personnel_id, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(8, 8, 8)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(motif, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(duree, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(periode, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(conge_reste, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(user_conge, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
+                .addComponent(add_demande, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         list_demande.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setText("PERSONNEL EN CONGE");
 
-        jButton1.setText("Cherche");
+        search_btn.setText("Cherche");
+        search_btn.setBorder(null);
+        search_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_btnActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        liste_conges.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -70,7 +238,12 @@ public class demande extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        liste_conges.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                liste_congesMouseClicked(evt);
+            }
+        });
+        conges_container.setViewportView(liste_conges);
 
         javax.swing.GroupLayout list_demandeLayout = new javax.swing.GroupLayout(list_demande);
         list_demande.setLayout(list_demandeLayout);
@@ -80,152 +253,305 @@ public class demande extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(list_demandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(list_demandeLayout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cherche_values)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(list_demandeLayout.createSequentialGroup()
+                        .addGroup(list_demandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(conges_container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         list_demandeLayout.setVerticalGroup(
             list_demandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(list_demandeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(list_demandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cherche_values, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
-                .addGroup(list_demandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(conges_container, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        info_demand.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setText("ID du demandeur");
-
-        jLabel3.setText("Conge restant : ");
-
-        jLabel5.setText("Motif");
-
-        jLabel6.setText("Duree");
-
-        jFormattedTextField1.setFocusable(false);
-
-        javax.swing.GroupLayout info_demandLayout = new javax.swing.GroupLayout(info_demand);
-        info_demand.setLayout(info_demandLayout);
-        info_demandLayout.setHorizontalGroup(
-            info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(info_demandLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
-                    .addComponent(jFormattedTextField1)
-                    .addComponent(jTextField3)
-                    .addGroup(info_demandLayout.createSequentialGroup()
-                        .addGroup(info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        info_demandLayout.setVerticalGroup(
-            info_demandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(info_demandLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(info_demand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(list_demande, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-
-        jButton2.setBackground(new java.awt.Color(0, 204, 255));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Valider");
-
-        jButton3.setBackground(new java.awt.Color(51, 255, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Modifier");
-
-        jButton4.setBackground(new java.awt.Color(255, 51, 0));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Supprimer");
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(list_demande, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(info_demand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(info_demand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                        .addGap(244, 244, 244)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(27, 27, 27)))
-                .addComponent(list_demande, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(list_demande, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(info_demand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void personnel_idKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_personnel_idKeyReleased
+        String identifiant = personnel_id.getText();
+        if (identifiant!=null && !identifiant.equals("")){
+            try {
+                controlCOnges ccg = new controlCOnges();
+                String resteConge = ccg.congetReste(identifiant);
+                if (resteConge==null || resteConge.equals("")){
+                    user_conge.setText("Erreur d'identifiant ou identifiant non trouve");
+                }
+                else{
+                    user_conge.setText(resteConge);
+                    user_conge.setForeground(Color.BLACK);
+                    
+                    motif.setEnabled(true);
+                    duree.setEnabled(true);
+                }
+            } catch (Exception ex) {
+                user_conge.setText("Erreur d'identifiant ou identifiant non trouve");
+                user_conge.setForeground(Color.RED);
+            }
+        }
+    }//GEN-LAST:event_personnel_idKeyReleased
+
+    
+    private void periodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_periodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_periodeActionPerformed
+
+    private void dureeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dureeKeyReleased
+        String dureRestant = user_conge.getText();
+        if (!dureRestant.equalsIgnoreCase("Erreur d'identifiant ou identifiant non trouve")){
+            String dur = duree.getText();
+            if (dur==null || dur.equals("")){ dur="0";}
+            int valeurReste = Integer.parseInt(dureRestant) - Integer.parseInt(dur);
+            if (valeurReste<0){ conge_reste.setForeground(Color.RED); }
+            else{ conge_reste.setForeground(Color.BLACK);}
+            conge_reste.setText(""+valeurReste+"");
+            
+        }
+        if(user_conge.getText().equals("") || user_conge.getText()==null) this.validateValues[1]=0;
+        else this.validateValues[1]=1;
+        System.out.println(Arrays.toString(this.validateValues));
+        
+        vierifyValide();
+    }//GEN-LAST:event_dureeKeyReleased
+
+    private void add_demandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_demandeActionPerformed
+        String persId = personnel_id.getText();
+        String dur =duree.getText();
+        String nouveauConge = conge_reste.getText();
+        String perd = (String) periode.getSelectedItem();
+        String motf = motif.getText();
+        try {
+            controlCOnges ccg = new controlCOnges();
+            ccg.changeConge(persId, nouveauConge);
+            ccg.ajoutDemand(dur,motf,persId,perd);
+            ChargerListe();
+            JOptionPane.showMessageDialog(this, "Demande de conge bien ajouter");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Vous ne pouvez pas ajouter deux demande pour un seul personnel,Veuillez le choisir et le modifier svp");
+        }
+    }//GEN-LAST:event_add_demandeActionPerformed
+
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        String valSearch = cherche_values.getText();
+        if (valSearch==null || valSearch.equals("")) ChargerListe();
+        else chercheDemande(valSearch);
+    }//GEN-LAST:event_search_btnActionPerformed
+
+    private void liste_congesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_liste_congesMouseClicked
+        int ligne = liste_conges.getSelectedRow();
+        String clientId = String.valueOf(liste_conges.getValueAt(ligne, 0));
+        String month = "janvier fevrier mars avril mai juin juillet aout septembre octobre novembre decembre";
+ 
+        try {
+            controlCOnges cp = new controlCOnges();
+            String client[] = cp.getDemande(clientId);
+            // Set value of all Champs
+            personnel_id.setText(client[0]);
+            motif.setText(client[2]);
+            duree.setText(client[1]);
+            periode.setSelectedItem(client[3]);
+            
+            motif.setEnabled(true);
+            duree.setEnabled(true);
+        
+            add_demande.setEnabled(true);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(personnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_liste_congesMouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        qr_scanner qr = new qr_scanner(demande.this);
+        qr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        qr.setVisible(true);
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void personnel_idInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_personnel_idInputMethodTextChanged
+        System.out.println("Evenement effectue...");
+    }//GEN-LAST:event_personnel_idInputMethodTextChanged
+
+    private void personnel_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personnel_idActionPerformed
+        System.out.println("Evenement chamngement...");
+    }//GEN-LAST:event_personnel_idActionPerformed
+
+    String cinVal;
+    private void motifKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_motifKeyReleased
+        String motifValues = motif.getText();
+        String identifiant = personnel_id.getText();
+        if (identifiant!=null && !identifiant.equals("")){
+            try {
+                controlPersonne cp = new controlPersonne();
+                cinVal = cp.getPersonnal(identifiant)[6];
+                if (validMotif(motifValues,cinVal)){
+                    System.out.println("Motif valide");
+                    this.validateValues[0]=1;
+                }
+                else{
+                    System.out.println("Motif invalide");
+                    this.validateValues[0]=0;
+                }
+            } catch (Exception ex) {
+                System.out.println("Motif invalide");
+            }
+        }
+        
+        vierifyValide();
+
+    }//GEN-LAST:event_motifKeyReleased
+
+    
+    //Fonction qui charge le liste des demande dans les conges;
+    public void ChargerListe() {
+        String titre[] = {"id", "Nom", "Prénoms"};
+        Object enreg[][] = new Object[1][1];
+
+        try {
+            controlCOnges ccg = new controlCOnges();
+            
+            int nbr = ccg.countConge();
+            enreg = new Object[nbr][titre.length];
+            ResultSet rs1 = ccg.listeDemande();
+            int i = 0;
+            while (rs1.next()) {
+                enreg[i][0] = (Object) rs1.getString("id");
+                enreg[i][1] = (Object) rs1.getString("nom");
+                enreg[i][2] = (Object) rs1.getString("prenom");
+                i++;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        liste_conges.setModel(new DefaultTableModel(enreg, titre));
+        conges_container.setViewportView(liste_conges);
+    }
+    
+    public void chercheDemande(String str) {
+        String titre[] = {"id", "Nom", "Prénoms"};
+        Object enreg[][] = new Object[1][1];
+
+        try {
+            controlCOnges ccg = new controlCOnges();
+            int nbr = ccg.countConge();
+            enreg = new Object[nbr][titre.length];
+            ResultSet rs1 = ccg.chercheDemande(str);
+            int i = 0;
+            while (rs1.next()) {
+                enreg[i][0] = (Object) rs1.getString("id");
+                enreg[i][1] = (Object) rs1.getString("nom");
+                enreg[i][2] = (Object) rs1.getString("prenom");
+                i++;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        liste_conges.setModel(new DefaultTableModel(enreg, titre));
+        conges_container.setViewportView(liste_conges);
+    }
+    
+    
+    public void setId(String id){
+        personnel_id.setText(id);
+    }
+    private boolean validMotif(String motif, String cin){
+        String sexe = cin.split("")[5];
+        String motifValue[] = motif.split(" ");
+        String motifs;
+        String femmeMotif[] = {"maternite", "allaitement","parental","menstruel"};
+        for(int i=0; i<motifValue.length;i++){
+            motifs = motifValue[i];
+            for(int j=0;j<femmeMotif.length;j++){
+                if(sexe.equals("1") && motifs.equalsIgnoreCase(femmeMotif[j])) return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean isInt(String str){
+        return str.matches("\\d"); 
+    }
+    
+    private void vierifyValide(){
+        if (AllValide()) this.add_demande.setEnabled(true);
+        else this.add_demande.setEnabled(false);
+    }
+    private boolean AllValide(){
+        for(int i=0; i<validateValues.length;i++){
+           if (this.validateValues[i]==0) return false;
+        }
+        return true;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_demande;
+    private javax.swing.JTextField cherche_values;
+    private javax.swing.JTextField conge_reste;
+    private javax.swing.JScrollPane conges_container;
+    private javax.swing.JFormattedTextField duree;
     private javax.swing.JPanel info_demand;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JPanel list_demande;
+    private javax.swing.JTable liste_conges;
+    private javax.swing.JTextField motif;
+    private javax.swing.JComboBox<String> periode;
+    private javax.swing.JTextField personnel_id;
+    private javax.swing.JButton search_btn;
+    private javax.swing.JTextField user_conge;
     // End of variables declaration//GEN-END:variables
 }
